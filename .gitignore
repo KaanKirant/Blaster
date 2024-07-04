@@ -367,3 +367,10 @@ FodyWeavers.xsd
 /Intermediate
 /Saved
 /Content/Assets
+/Content/__ExternalObjects__/Maps/GameStartUpMap
+/Content/__ExternalActors__
+/Content/Maps
+*.uproject
+/Plugins/MultiplayerSessions/Binaries/Win64/UnrealEditor-MultiplayerSessions.dll
+/Plugins/MultiplayerSessions/Intermediate/Build/Win64/UnrealGame/Inc/MultiplayerSessions/UHT/Menu.gen.cpp
+/Plugins/MultiplayerSessions/Intermediate/Build/Win64/UnrealGame/Inc/MultiplayerSessions/UHT
