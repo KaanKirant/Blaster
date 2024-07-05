@@ -374,3 +374,5 @@ FodyWeavers.xsd
 /Plugins/MultiplayerSessions/Binaries/Win64/UnrealEditor-MultiplayerSessions.dll
 /Plugins/MultiplayerSessions/Intermediate/Build/Win64/UnrealGame/Inc/MultiplayerSessions/UHT/Menu.gen.cpp
 /Plugins/MultiplayerSessions/Intermediate/Build/Win64/UnrealGame/Inc/MultiplayerSessions/UHT
+/Content/Blueprints/Character/BP_BlasterCharacter.uasset
+/Content/Inputs

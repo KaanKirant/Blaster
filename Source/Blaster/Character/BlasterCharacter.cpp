@@ -2,33 +2,78 @@
 
 
 #include "BlasterCharacter.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
-// Sets default values
+#include "Components/InputComponent.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+
 ABlasterCharacter::ABlasterCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->SetupAttachment(GetMesh());
+	CameraBoom->TargetArmLength = 600.f;
+	CameraBoom->bUsePawnControlRotation = true;
+
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	FollowCamera->bUsePawnControlRotation = false;
 }
 
-// Called when the game starts or when spawned
 void ABlasterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(CharacterMappingContext, 0);
+		}
+	}
 }
 
-// Called every frame
+void ABlasterCharacter::Move(const FInputActionValue& Value)
+{
+	const FVector2D MovementVector = Value.Get<FVector2D>();
+
+	const FRotator Rotation = Controller->GetControlRotation();
+	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
+
+	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+	AddMovementInput(ForwardDirection, MovementVector.Y);
+	const FVector RightDirectiob = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+	AddMovementInput(RightDirectiob, MovementVector.X);
+}
+
+void ABlasterCharacter::Look(const FInputActionValue& Value)
+{
+	const FVector2D LookAxisValue = Value.Get<FVector2D>();
+	if (GetController())
+	{
+		AddControllerYawInput(LookAxisValue.X);
+		AddControllerPitchInput(LookAxisValue.Y);
+	}
+}
+
 void ABlasterCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// Called to bind functionality to input
 void ABlasterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	{
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ABlasterCharacter::Move);
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ABlasterCharacter::Look);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+	}
 }
 
