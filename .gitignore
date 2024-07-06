@@ -376,3 +376,7 @@ FodyWeavers.xsd
 /Plugins/MultiplayerSessions/Intermediate/Build/Win64/UnrealGame/Inc/MultiplayerSessions/UHT
 /Content/Blueprints/Character/BP_BlasterCharacter.uasset
 /Content/Inputs
+/Content/Blueprints/Character/Animation/ABP_BlasterAnim.uasset
+/Content/Blueprints/Character/Animation/UnequippedIdleWalkRun.uasset
+/Content/Blueprints/Gamemodes/BP_BlasterGameMode.uasset
+/Content/Blueprints/Gamemodes/BP_LobbyGameMode.uasset
