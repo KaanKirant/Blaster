@@ -380,3 +380,5 @@ FodyWeavers.xsd
 /Content/Blueprints/Character/Animation/UnequippedIdleWalkRun.uasset
 /Content/Blueprints/Gamemodes/BP_BlasterGameMode.uasset
 /Content/Blueprints/Gamemodes/BP_LobbyGameMode.uasset
+/Content/Blueprints/HUD/WBP_OverheadWidget.uasset
+/Content/Blueprints/Weapon/BP_Weapon.uasset
