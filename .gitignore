@@ -382,3 +382,4 @@ FodyWeavers.xsd
 /Content/Blueprints/Gamemodes/BP_LobbyGameMode.uasset
 /Content/Blueprints/HUD/WBP_OverheadWidget.uasset
 /Content/Blueprints/Weapon/BP_Weapon.uasset
+/Content/Blueprints/HUD/WBP_PickUpWidget.uasset
