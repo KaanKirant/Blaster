@@ -7,22 +7,24 @@
 #include "CombatComponent.generated.h"
 
 
+class AWeapon;
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BLASTER_API UCombatComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UCombatComponent();
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	friend class ABlasterComponent;
 
+	void EquipWeapon(AWeapon* WeaponToEquip);
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-		
+private:
+	class ABlasterCharacter* Character;
+	AWeapon* EquippedWeapon;
+public:
 };
