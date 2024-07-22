@@ -115,7 +115,7 @@ void ABlasterCharacter::Equip(const FInputActionValue& Value)
 	}
 }
 
-void ABlasterCharacter::CrouchButtonPressed(const FInputActionValue& Value)
+void ABlasterCharacter::Crouch(const FInputActionValue& Value)
 {
 	if (bIsCrouched)
 	{
@@ -123,8 +123,13 @@ void ABlasterCharacter::CrouchButtonPressed(const FInputActionValue& Value)
 	}
 	else
 	{
-		Crouch();
+		Super::Crouch();
 	}
+}
+
+void ABlasterCharacter::Aim(const FInputActionValue& Value)
+{
+	Combat->SetAiming(Value.Get<bool>());
 }
 
 void ABlasterCharacter::ServerEquipButtonPressed_Implementation()
@@ -143,8 +148,10 @@ void ABlasterCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ABlasterCharacter::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ABlasterCharacter::Look);
 		EnhancedInputComponent->BindAction(EquipAction, ETriggerEvent::Triggered, this, &ABlasterCharacter::Equip);
-		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ABlasterCharacter::CrouchButtonPressed);
+		EnhancedInputComponent->BindAction(CrouchAction, ETriggerEvent::Started, this, &ABlasterCharacter::Crouch);
+		EnhancedInputComponent->BindAction(AimAction, ETriggerEvent::Triggered, this, &ABlasterCharacter::Aim);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+
 	}
 }
 
@@ -183,4 +190,9 @@ void ABlasterCharacter::OnRep_OverlappingWeapon(AWeapon* LastWeapon)
 bool ABlasterCharacter::IsWeaponEquipped()
 {
 	return (Combat && Combat->EquippedWeapon);
+}
+
+bool ABlasterCharacter::IsAiming()
+{
+	return (Combat && Combat->bIsAiming);
 }

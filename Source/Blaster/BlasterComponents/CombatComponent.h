@@ -22,12 +22,19 @@ public:
 	void EquipWeapon(AWeapon* WeaponToEquip);
 protected:
 	virtual void BeginPlay() override;
+	void SetAiming(bool bAiming);
+
+	UFUNCTION(Server, Reliable)
+	void ServerSetAiming(bool bAiming);
 
 private:
 	class ABlasterCharacter* Character;
 
 	UPROPERTY(Replicated)
 	AWeapon* EquippedWeapon;
+
+	UPROPERTY(Replicated)
+	bool bIsAiming;
 
 public:
 };
